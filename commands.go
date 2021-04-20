@@ -20,7 +20,7 @@ func (client *ClientTCP) waitHasReadyCmd(timer *time.Ticker, response chan<- str
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(hasPINCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(hasPINCmd, sNL, "")
 
 					break
 
@@ -36,7 +36,7 @@ func (client *ClientTCP) waitHasReadyCmd(timer *time.Ticker, response chan<- str
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(hasPINCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(hasPINCmd, sNL, "")
 
 			break
 		}
@@ -61,7 +61,7 @@ func (client *ClientTCP) waitPINCmd(timer *time.Ticker, response chan<- string) 
 				isSMS := indexOf(client.lines, smsReady)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setPINCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setPINCmd, sNL, "")
 
 					break
 
@@ -73,7 +73,7 @@ func (client *ClientTCP) waitPINCmd(timer *time.Ticker, response chan<- string) 
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setPINCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setPINCmd, sNL, "")
 
 			break
 		}
@@ -97,7 +97,7 @@ func (client *ClientTCP) waitGSNCmd(timer *time.Ticker, response chan<- string) 
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setGSNCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setGSNCmd, sNL, "")
 
 					break
 
@@ -109,7 +109,7 @@ func (client *ClientTCP) waitGSNCmd(timer *time.Ticker, response chan<- string) 
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setGSNCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setGSNCmd, sNL, "")
 
 			break
 		}
@@ -133,7 +133,7 @@ func (client *ClientTCP) waitHasCREGCmd(timer *time.Ticker, response chan<- stri
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(hasCREGCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(hasCREGCmd, sNL, "")
 
 					break
 
@@ -145,7 +145,7 @@ func (client *ClientTCP) waitHasCREGCmd(timer *time.Ticker, response chan<- stri
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(hasCREGCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(hasCREGCmd, sNL, "")
 
 			break
 		}
@@ -168,7 +168,7 @@ func (client *ClientTCP) waitHasCGATTCmd(timer *time.Ticker, response chan<- str
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(hasCGATTCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(hasCGATTCmd, sNL, "")
 					break
 
 				} else if isOk {
@@ -179,7 +179,7 @@ func (client *ClientTCP) waitHasCGATTCmd(timer *time.Ticker, response chan<- str
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(hasCGATTCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(hasCGATTCmd, sNL, "")
 
 			break
 		}
@@ -202,7 +202,7 @@ func (client *ClientTCP) waitCGATTCmd(timer *time.Ticker, response chan<- string
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCGATTCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCGATTCmd, sNL, "")
 					break
 
 				} else if isOk {
@@ -213,7 +213,7 @@ func (client *ClientTCP) waitCGATTCmd(timer *time.Ticker, response chan<- string
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setCGATTCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setCGATTCmd, sNL, "")
 
 			break
 		}
@@ -237,7 +237,7 @@ func (client *ClientTCP) waitHasCIPMODECmd(timer *time.Ticker, response chan<- s
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(hasCIPMODECmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(hasCIPMODECmd, sNL, "")
 
 					break
 
@@ -251,7 +251,7 @@ func (client *ClientTCP) waitHasCIPMODECmd(timer *time.Ticker, response chan<- s
 
 			timeoutCount = timeoutCount + 1
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(hasCIPMODECmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(hasCIPMODECmd, sNL, "")
 
 			break
 		}
@@ -273,7 +273,7 @@ func (client *ClientTCP) waitCIPMODECmd(timer *time.Ticker, response chan<- stri
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCIPMODECmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCIPMODECmd, sNL, "")
 					break
 
 				} else if isOk {
@@ -283,7 +283,7 @@ func (client *ClientTCP) waitCIPMODECmd(timer *time.Ticker, response chan<- stri
 
 			timeoutCount = timeoutCount + 1
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setCIPMODECmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setCIPMODECmd, sNL, "")
 
 			break
 		}
@@ -305,7 +305,7 @@ func (client *ClientTCP) waitCIPSHUTCmd(timer *time.Ticker, response chan<- stri
 				isSuccess := indexOf(client.lines, successCIPSHUT)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCIPSHUTCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCIPSHUTCmd, sNL, "")
 
 					break
 
@@ -316,7 +316,7 @@ func (client *ClientTCP) waitCIPSHUTCmd(timer *time.Ticker, response chan<- stri
 
 			timeoutCount = timeoutCount + 1
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSHUTCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSHUTCmd, sNL, "")
 			break
 		}
 	}
@@ -340,7 +340,7 @@ func (client *ClientTCP) waitCIPSTATUSCmd(timer *time.Ticker, response chan<- st
 				isPDP := indexOf(client.lines, successPDPDEACT)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCIPSTATUSCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCIPSTATUSCmd, sNL, "")
 
 					break
 
@@ -369,7 +369,7 @@ func (client *ClientTCP) waitCIPSTATUSCmd(timer *time.Ticker, response chan<- st
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSTATUSCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSTATUSCmd, sNL, "")
 
 			break
 		}
@@ -392,7 +392,7 @@ func (client *ClientTCP) waitAPNCmd(timer *time.Ticker, response chan<- string, 
 				isOk := indexOf(client.lines, successOk)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setAPN, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setAPN, sNL, "")
 
 					break
 
@@ -404,7 +404,7 @@ func (client *ClientTCP) waitAPNCmd(timer *time.Ticker, response chan<- string, 
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setAPN, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setAPN, sNL, "")
 
 			break
 		}
@@ -423,7 +423,7 @@ func (client *ClientTCP) waitCIICRCmd(timer *time.Ticker, response chan<- string
 			isOk := indexOf(client.lines, successOk)
 
 			if isError {
-				message = msgErrCmd + strings.ReplaceAll(setCIICRCmd, "\n", "")
+				message = msgErrCmd + strings.ReplaceAll(setCIICRCmd, sNL, "")
 
 				break
 
@@ -450,7 +450,7 @@ func (client *ClientTCP) waitCIFSRCmd(timer *time.Ticker, response chan<- string
 				isSuccess := isIP(client.lines)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCIFSRCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCIFSRCmd, sNL, "")
 
 					break
 
@@ -462,7 +462,7 @@ func (client *ClientTCP) waitCIFSRCmd(timer *time.Ticker, response chan<- string
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setCIFSRCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setCIFSRCmd, sNL, "")
 			break
 		}
 	}
@@ -485,14 +485,14 @@ func (client *ClientTCP) waitCIPSTARTCmd(timer *time.Ticker, response chan<- str
 				isSuccess := indexOf(client.lines, successCIPSTART)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCIPSTARTCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCIPSTARTCmd, sNL, "")
 					break
 
 				} else if isSuccess {
 					break
 
 				} else if isFail {
-					message = successCONNECTFAIL + ": " + strings.ReplaceAll(nCIPSTARTCmd, "\n", "")
+					message = successCONNECTFAIL + ": " + strings.ReplaceAll(nCIPSTARTCmd, sNL, "")
 
 					break
 				}
@@ -501,7 +501,7 @@ func (client *ClientTCP) waitCIPSTARTCmd(timer *time.Ticker, response chan<- str
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(nCIPSTARTCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(nCIPSTARTCmd, sNL, "")
 
 			break
 		}
@@ -525,7 +525,7 @@ func (client *ClientTCP) waitCIPSENDCmd(timer *time.Ticker, response chan<- stri
 				isSuccess := indexOf(client.lines, successCIPSEND)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCIPSENDCmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCIPSENDCmd, sNL, "")
 					break
 
 				} else if isSuccess {
@@ -541,7 +541,7 @@ func (client *ClientTCP) waitCIPSENDCmd(timer *time.Ticker, response chan<- stri
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSENDCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSENDCmd, sNL, "")
 
 			break
 		}
@@ -581,7 +581,7 @@ func (client *ClientTCP) waitENTERCmd(timer *time.Ticker, response chan<- string
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setENTERCmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setENTERCmd, sNL, "")
 
 			break
 		}
@@ -604,7 +604,7 @@ func (client *ClientTCP) waitCIPCLOSECmd(timer *time.Ticker, response chan<- str
 				isClosed := indexOf(client.lines, successCLOSEOK)
 
 				if isError {
-					message = msgErrCmd + strings.ReplaceAll(setCIPCLOSECmd, "\n", "")
+					message = msgErrCmd + strings.ReplaceAll(setCIPCLOSECmd, sNL, "")
 
 					break
 
@@ -617,7 +617,7 @@ func (client *ClientTCP) waitCIPCLOSECmd(timer *time.Ticker, response chan<- str
 			timeoutCount = timeoutCount + 1
 
 		} else {
-			message = msgTimeoutCmd + strings.ReplaceAll(setCIPCLOSECmd, "\n", "")
+			message = msgTimeoutCmd + strings.ReplaceAll(setCIPCLOSECmd, sNL, "")
 
 			break
 		}

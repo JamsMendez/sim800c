@@ -39,7 +39,7 @@ func isIP(array []string) bool {
 }
 
 func printInputCmd(cmd string) {
-	s := strings.ReplaceAll(cmd, "\n", "")
+	s := strings.ReplaceAll(cmd, sNL, "")
 	fmt.Println(color.YellowString("EXEC: %s", s))
 }
 

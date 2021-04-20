@@ -19,7 +19,7 @@ const (
 	setCIPSTARTCmd  = "AT+CIPSTART=\"TCP\","
 	setCIPSENDCmd   = "AT+CIPSEND\n"
 	setCIPCLOSECmd  = "AT+CIPCLOSE\n"
-	setJSONCmd      = "[JSON]\n"
+	setJSONCmd      = "[JSON]\r\n"
 	setENTERCmd     = "\x1A"
 
 	// Response commands SIM800
@@ -52,6 +52,7 @@ const (
 	msgErrCmd     = "COMMAND ERROR: "
 
 	sCRNL = "\r\n"
+	sNL   = "\n"
 )
 
 // New line

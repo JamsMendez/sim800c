@@ -14,7 +14,7 @@ import (
 
 func main() {
   
-  	client := sim800c.ClientTCP{
+	client := sim800c.ClientTCP{
 		PortName: "COM6",
 		BaudRate: 9600,
 		Debug:    true,
@@ -31,7 +31,7 @@ func main() {
 		log.Fatal(err)
 	}
   
-  	defer client.Close()
+	defer client.Close()
 
 	err = client.Connect()
 	if err != nil {
@@ -39,6 +39,18 @@ func main() {
 	}
 
 	fmt.Println("CONNECTION SUCCESS")
+
+	go func() {
+		for {
+			inputs := client.GetJSON()
+			size := len(inputs)
+			if size > 0 {
+				fmt.Println("INPUTS ... ", inputs)
+			}
+
+			time.Sleep(time.Second * 1)
+		}
+	}()
 
 	err = client.Send("JamsMendez")
 	if err != nil {

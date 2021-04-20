@@ -66,8 +66,16 @@ func (client *ClientTCP) reading() {
 				line = append(line, chunk[i])
 
 				if chunk[i] == bNL {
+					var parts []string
 					s := string(line)
-					parts := strings.Split(s, sCRNL)
+
+					isCRNL := strings.Contains(s, sCRNL)
+					if isCRNL {
+						parts = strings.Split(s, sCRNL)
+					} else {
+						parts = strings.Split(s, sNL)
+					}
+
 					if len(parts) > 0 {
 						first := parts[0]
 						if first != "" {
@@ -83,6 +91,7 @@ func (client *ClientTCP) reading() {
 
 	for line := range client.data {
 		client.addJSON(line)
+
 		client.lines = append(client.lines, line)
 	}
 }
@@ -500,7 +509,7 @@ func (client *ClientTCP) Connect() (err error) {
 		}
 
 		// === SET APN COMMAND	===
-		setAPN := setAPNCmd + "\"" + client.APN + "\", \"" + client.User + "\", \"" + client.Password + "\"\n"
+		setAPN := fmt.Sprintf("%s\"%s\",\"%s\",\"%s\"%s", setAPNCmd, client.APN, client.User, client.Password, sNL)
 		client.lines = make([]string, 0)
 		err = client.commandExec(setAPN)
 		if err != nil {
@@ -584,7 +593,7 @@ func (client *ClientTCP) Connect() (err error) {
 
 	// === SET CIPSTART COMMAND ===
 	client.lines = make([]string, 0)
-	nCIPSTART := setCIPSTARTCmd + "\"" + client.IP + "\", \"" + client.Port + "\"\n"
+	nCIPSTART := fmt.Sprintf("%s\"%s\",\"%s\"%s", setCIPSTARTCmd, client.IP, client.Port, sNL)
 	err = client.commandExec(nCIPSTART)
 	if err != nil {
 		return err

@@ -93,14 +93,15 @@ func (client *ClientTCP) waitGSNCmd(timer *time.Ticker, response chan<- string) 
 			length := len(client.lines)
 			if length > 0 {
 				isError := indexOf(client.lines, successError)
-				isOk := isIMEI(client.lines, client.IMEI)
+				isIMEI := isIMEI(client.lines, client.IMEI)
+				isOk := indexOf(client.lines, successOk)
 
 				if isError {
 					message = msgErrCmd + strings.ReplaceAll(setGSNCmd, "\n", "")
 
 					break
 
-				} else if isOk {
+				} else if isOk || isIMEI {
 					break
 				}
 			}
@@ -501,6 +502,7 @@ func (client *ClientTCP) waitCIPSTARTCmd(timer *time.Ticker, response chan<- str
 
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(nCIPSTARTCmd, "\n", "")
+
 			break
 		}
 	}
@@ -509,27 +511,39 @@ func (client *ClientTCP) waitCIPSTARTCmd(timer *time.Ticker, response chan<- str
 }
 
 func (client *ClientTCP) waitCIPSENDCmd(timer *time.Ticker, response chan<- string) {
+	timeoutCount := 0
 	var message string
 
 	for range timer.C {
-		length := len(client.lines)
-		if length > 0 {
-			isError := indexOf(client.lines, successError)
-			isClosed := indexOf(client.lines, successCLOSED)
-			isSuccess := indexOf(client.lines, successCIPSEND)
+		timeoutMs := timeoutSend * 1000 / delayTime
+		if timeoutCount < timeoutMs {
 
-			if isError {
-				message = msgErrCmd + strings.ReplaceAll(setCIPSENDCmd, "\n", "")
-				break
+			length := len(client.lines)
+			if length > 0 {
+				isError := indexOf(client.lines, successError)
+				isClosed := indexOf(client.lines, successCLOSED)
+				isSuccess := indexOf(client.lines, successCIPSEND)
 
-			} else if isSuccess {
-				break
+				if isError {
+					message = msgErrCmd + strings.ReplaceAll(setCIPSENDCmd, "\n", "")
+					break
 
-			} else if isClosed {
-				message = msgErrCmd + successCLOSED
+				} else if isSuccess {
+					break
 
-				break
+				} else if isClosed {
+					message = msgErrCmd + successCLOSED
+
+					break
+				}
 			}
+
+			timeoutCount = timeoutCount + 1
+
+		} else {
+			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSENDCmd, "\n", "")
+
+			break
 		}
 	}
 
@@ -537,27 +551,39 @@ func (client *ClientTCP) waitCIPSENDCmd(timer *time.Ticker, response chan<- stri
 }
 
 func (client *ClientTCP) waitENTERCmd(timer *time.Ticker, response chan<- string) {
+	timeoutCount := 0
 	var message string
 
 	for range timer.C {
-		length := len(client.lines)
-		if length > 0 {
-			isError := indexOf(client.lines, successError)
-			isClosed := indexOf(client.lines, successCLOSED)
-			isSuccess := indexOf(client.lines, successSENDOK)
+		timeoutMs := timeoutSend * 1000 / delayTime
+		if timeoutCount < timeoutMs {
 
-			if isError {
-				message = msgErrCmd + "ENTER SEND JSON"
-				break
+			length := len(client.lines)
+			if length > 0 {
+				isError := indexOf(client.lines, successError)
+				isClosed := indexOf(client.lines, successCLOSED)
+				isSuccess := indexOf(client.lines, successSENDOK)
 
-			} else if isSuccess {
-				break
+				if isError {
+					message = msgErrCmd + "ENTER SEND JSON"
+					break
 
-			} else if isClosed {
-				message = msgErrCmd + successCLOSED
+				} else if isSuccess {
+					break
 
-				break
+				} else if isClosed {
+					message = msgErrCmd + successCLOSED
+
+					break
+				}
 			}
+
+			timeoutCount = timeoutCount + 1
+
+		} else {
+			message = msgTimeoutCmd + strings.ReplaceAll(setENTERCmd, "\n", "")
+
+			break
 		}
 	}
 
@@ -575,7 +601,7 @@ func (client *ClientTCP) waitCIPCLOSECmd(timer *time.Ticker, response chan<- str
 			length := len(client.lines)
 			if length > 0 {
 				isError := indexOf(client.lines, successError)
-				isClosed := indexOf(client.lines, successCLOSED)
+				isClosed := indexOf(client.lines, successCLOSEOK)
 
 				if isError {
 					message = msgErrCmd + strings.ReplaceAll(setCIPCLOSECmd, "\n", "")

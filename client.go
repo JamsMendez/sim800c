@@ -1,6 +1,7 @@
 package sim800c
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
@@ -29,7 +30,9 @@ type ClientTCP struct {
 	serialPort *serial.Port
 
 	// Slices of responses
-	lines []string
+	lines  []string
+	inputs []string
+
 	// Channel serial data
 	data        chan string
 	isConnected bool
@@ -67,7 +70,9 @@ func (client *ClientTCP) reading() {
 					parts := strings.Split(s, sCRNL)
 					if len(parts) > 0 {
 						first := parts[0]
-						client.data <- first
+						if first != "" {
+							client.data <- first
+						}
 
 						line = []byte{}
 					}
@@ -77,7 +82,34 @@ func (client *ClientTCP) reading() {
 	}()
 
 	for line := range client.data {
+		client.addJSON(line)
 		client.lines = append(client.lines, line)
+	}
+}
+
+func (client *ClientTCP) addJSON(s string) {
+	o := map[string]interface{}{}
+	a := []interface{}{}
+
+	buffer := []byte(s)
+	err := json.Unmarshal(buffer, &o)
+	if err == nil {
+		if client.Debug {
+			printOutputCmd([]string{s})
+		}
+
+		client.inputs = append(client.inputs, s)
+	}
+
+	if err != nil {
+		err := json.Unmarshal(buffer, &a)
+		if err == nil {
+			if client.Debug {
+				printOutputCmd([]string{s})
+			}
+
+			client.inputs = append(client.inputs, s)
+		}
 	}
 }
 
@@ -770,4 +802,13 @@ func (client *ClientTCP) Close() {
 			}
 		}
 	}
+}
+
+// GetJSON ... Gets the JSONs received from server TCP
+func (client *ClientTCP) GetJSON() []string {
+	defer func() {
+		client.inputs = []string{}
+	}()
+
+	return client.inputs
 }

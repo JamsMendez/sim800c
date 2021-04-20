@@ -44,7 +44,8 @@ func printInputCmd(cmd string) {
 }
 
 func printOutputCmd(lines []string) {
-	fmt.Println(color.GreenString("> %v\n", lines))
+	s := strings.Join(lines, ",")
+	fmt.Println(color.GreenString("> %s\n", s))
 }
 
 func printErrCmd(err error) {

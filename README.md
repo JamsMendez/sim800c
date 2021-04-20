@@ -12,7 +12,9 @@ import (
 	"github.com/JamsMendez/sim800c"
 )
 
-func main() {	client := sim800c.ClientTCP{
+func main() {
+  
+  	client := sim800c.ClientTCP{
 		PortName: "COM6",
 		BaudRate: 9600,
 		Debug:    true,
@@ -28,8 +30,8 @@ func main() {	client := sim800c.ClientTCP{
 	if err != nil {
 		log.Fatal(err)
 	}
-
-  defer client.Close()
+  
+  	defer client.Close()
 
 	err = client.Connect()
 	if err != nil {

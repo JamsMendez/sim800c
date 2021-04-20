@@ -58,8 +58,9 @@ const (
 const bNL = 10
 
 // values in seconds
-const timeoutReady = 60
-const timeoutCmd = 20
+const timeoutSend = 60 * 3
+const timeoutReady = 90
+const timeoutCmd = 30
 
 // value in milliseconds
 const delayTime = 250

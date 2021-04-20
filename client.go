@@ -55,7 +55,9 @@ func (client *ClientTCP) reading() {
 					printErrCmd(nErr)
 				}
 
-				client.Close()
+				if client.isConnected {
+					client.Close()
+				}
 
 				break
 			}

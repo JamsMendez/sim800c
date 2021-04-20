@@ -1,6 +1,7 @@
 package sim800c
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -37,6 +38,12 @@ func (client *ClientTCP) waitHasReadyCmd(timer *time.Ticker, response chan<- str
 
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(hasPINCmd, sNL, "")
+
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
 
 			break
 		}
@@ -77,6 +84,12 @@ func (client *ClientTCP) waitPINCmd(timer *time.Ticker, response chan<- string) 
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -110,6 +123,12 @@ func (client *ClientTCP) waitGSNCmd(timer *time.Ticker, response chan<- string) 
 
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(setGSNCmd, sNL, "")
+
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
 
 			break
 		}
@@ -149,6 +168,12 @@ func (client *ClientTCP) waitHasCREGCmd(timer *time.Ticker, response chan<- stri
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -183,6 +208,12 @@ func (client *ClientTCP) waitHasCGATTCmd(timer *time.Ticker, response chan<- str
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -214,6 +245,12 @@ func (client *ClientTCP) waitCGATTCmd(timer *time.Ticker, response chan<- string
 
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(setCGATTCmd, sNL, "")
+
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
 
 			break
 		}
@@ -255,6 +292,12 @@ func (client *ClientTCP) waitHasCIPMODECmd(timer *time.Ticker, response chan<- s
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -284,6 +327,12 @@ func (client *ClientTCP) waitCIPMODECmd(timer *time.Ticker, response chan<- stri
 			timeoutCount = timeoutCount + 1
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(setCIPMODECmd, sNL, "")
+
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
 
 			break
 		}
@@ -317,6 +366,12 @@ func (client *ClientTCP) waitCIPSHUTCmd(timer *time.Ticker, response chan<- stri
 			timeoutCount = timeoutCount + 1
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(setCIPSHUTCmd, sNL, "")
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
 			break
 		}
 	}
@@ -373,6 +428,12 @@ func (client *ClientTCP) waitCIPSTATUSCmd(timer *time.Ticker, response chan<- st
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -408,6 +469,12 @@ func (client *ClientTCP) waitAPNCmd(timer *time.Ticker, response chan<- string, 
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -430,6 +497,12 @@ func (client *ClientTCP) waitCIICRCmd(timer *time.Ticker, response chan<- string
 			} else if isOk {
 				break
 			}
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
 		}
 	}
 
@@ -463,6 +536,12 @@ func (client *ClientTCP) waitCIFSRCmd(timer *time.Ticker, response chan<- string
 
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(setCIFSRCmd, sNL, "")
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
 			break
 		}
 	}
@@ -502,6 +581,12 @@ func (client *ClientTCP) waitCIPSTARTCmd(timer *time.Ticker, response chan<- str
 
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(nCIPSTARTCmd, sNL, "")
+
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
 
 			break
 		}
@@ -545,6 +630,12 @@ func (client *ClientTCP) waitCIPSENDCmd(timer *time.Ticker, response chan<- stri
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -585,6 +676,12 @@ func (client *ClientTCP) waitENTERCmd(timer *time.Ticker, response chan<- string
 
 			break
 		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
+
+			break
+		}
 	}
 
 	response <- message
@@ -618,6 +715,12 @@ func (client *ClientTCP) waitCIPCLOSECmd(timer *time.Ticker, response chan<- str
 
 		} else {
 			message = msgTimeoutCmd + strings.ReplaceAll(setCIPCLOSECmd, sNL, "")
+
+			break
+		}
+
+		if !client.isConnected {
+			message = fmt.Sprintf("%s %s", msgErrCmd, "serial port is closed")
 
 			break
 		}

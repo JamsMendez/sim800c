@@ -87,6 +87,7 @@ func (client *ClientTCP) reading() {
 	}
 }
 
+// addJSON ... check if a message is JSON to get it with the GetJSON
 func (client *ClientTCP) addJSON(s string) {
 	o := map[string]interface{}{}
 	a := []interface{}{}
@@ -686,6 +687,70 @@ func (client *ClientTCP) Disconnect() (err error) {
 	go client.waitCIPCLOSECmd(timer, response)
 
 	message := <-response
+
+	timer.Stop()
+
+	if message != "" {
+		if client.Debug {
+			printOutputCmd(client.lines)
+		}
+
+		return errors.New(message)
+	}
+
+	if client.Debug {
+		printOutputCmd(client.lines)
+	}
+
+	return err
+}
+
+// Reset... reset connection and configuration TCP client
+func (client *ClientTCP) Reset() (err error) {
+	if !client.isConnected {
+		message := "serial port isn't open"
+		err = errors.New(message)
+		return err
+	}
+
+	// === SET CIPCLOSE COMMAND ===
+	client.lines = make([]string, 0)
+	err = client.commandExec(setCIPCLOSECmd)
+	if err != nil {
+		return err
+	}
+
+	response := make(chan string)
+	defer close(response)
+
+	timer := time.NewTicker(time.Millisecond * delayTime)
+
+	go client.waitCIPCLOSECmd(timer, response)
+
+	message := <-response
+
+	timer.Stop()
+
+	if message != "" {
+		if client.Debug {
+			printOutputCmd(client.lines)
+		}
+
+		// Error ignored because there may be no connection
+	}
+
+	// === SET CIPSHUT COMMAND ===
+	client.lines = make([]string, 0)
+	err = client.commandExec(setCIPSHUTCmd)
+	if err != nil {
+		return err
+	}
+
+	timer = time.NewTicker(time.Millisecond * delayTime)
+
+	go client.waitCIPSHUTCmd(timer, response)
+
+	message = <-response
 
 	timer.Stop()
 
